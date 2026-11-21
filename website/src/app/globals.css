@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  background-color: #07060b;
+  color: #ffffff;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 60% 45% at 68% 22%, rgba(113, 59, 255, 0.16), transparent 70%),
+    radial-gradient(ellipse 45% 35% at 18% 12%, rgba(231, 195, 71, 0.06), transparent 65%),
+    #07060b;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@layer utilities {
+  .dark-card {
+    background: linear-gradient(160deg, rgba(20, 14, 34, 0.92), rgba(12, 9, 22, 0.97));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dark-card-gold {
+    background: linear-gradient(160deg, rgba(22, 16, 38, 0.94), rgba(11, 8, 20, 0.98));
+    border: 1px solid rgba(231, 195, 71, 0.28);
+    box-shadow: 0 20px 55px rgba(231, 195, 71, 0.1);
+  }
+
+  .gold-gradient-text {
+    background: linear-gradient(135deg, #f5dc78 0%, #e7c347 52%, #c49b26 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gold-gradient-button {
+    background: linear-gradient(135deg, #f2d368 0%, #e7c347 55%, #c49b26 100%);
+  }
+}

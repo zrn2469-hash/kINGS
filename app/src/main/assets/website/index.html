@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGS EARNS — Official Android App Download</title>
+  <link rel="icon" type="image/jpeg" href="./assets/kings-earns-icon.jpg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#E7C347" aria-hidden="true">
+          <path d="M3 18h18v2H3v-2zm0-2l2-9 5 4 2-6 2 6 5-4 2 9H3z" />
+        </svg>
+        <span class="brand-title">KINGS EARNS</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Primary Navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About App</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#download">Download</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#download" class="btn-gold btn-gold-sm">Download App</a>
+        <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle navigation menu">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge-row">
+            <div class="hero-icon-box">
+              <img src="./assets/kings-earns-icon.jpg" alt="KINGS EARNS Official Crown Icon" />
+            </div>
+            <div>
+              <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;color:#E7C347;text-transform:uppercase;">
+                KINGS EARNS &middot; WATCH. EARN. REWARD.
+              </div>
+              <p style="margin-top:4px;font-size:0.82rem;font-weight:500;color:#B4ACC8;">
+                Official Android Application Distribution
+              </p>
+            </div>
+          </div>
+
+          <h1>
+            <span style="display:block;color:#FFFFFF;">WELCOME TO</span>
+            <span style="display:block;margin-top:4px;" class="gold-gradient-text">KINGS EARNS</span>
+          </h1>
+
+          <p class="hero-sub">
+            Discover the KINGS EARNS mobile experience. Download the app and explore its features.
+          </p>
+
+          <div class="hero-cta">
+            <div>
+              <button type="button" class="btn-gold" data-apk-download-btn data-status-target="heroDownloadNotice">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+                </svg>
+                <span>DOWNLOAD APP</span>
+              </button>
+              <div id="heroDownloadNotice" class="status-notice" style="display:none;"></div>
+            </div>
+            <a href="#features" class="btn-dark">
+              <span>Explore Features</span>
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <div class="phone-frame">
+            <div class="phone-camera"></div>
+            <div class="phone-screen">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#E7C347" aria-hidden="true">
+                    <path d="M3 18h18v2H3v-2zm0-2l2-9 5 4 2-6 2 6 5-4 2 9H3z" />
+                  </svg>
+                  <span style="font-size:0.78rem;font-weight:800;letter-spacing:0.04em;color:#FFFFFF;">KINGS EARNS</span>
+                </div>
+                <span style="font-size:0.75rem;font-weight:600;color:#E7C347;">Android</span>
+              </div>
+
+              <div style="border-radius:16px;border:1px solid rgba(231,195,71,0.25);background:#120D21;padding:14px;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:0.74rem;font-weight:700;letter-spacing:0.06em;color:#E7C347;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#E7C347" aria-hidden="true">
+                    <path d="M3 18h18v2H3v-2zm0-2l2-9 5 4 2-6 2 6 5-4 2 9H3z" />
+                  </svg>
+                  <span>WATCH. EARN. REWARD.</span>
+                </div>
+                <p style="margin-top:8px;font-size:0.74rem;line-height:1.5;color:#B4ACC8;">
+                  Simple navigation for daily activities, account overview, and reward tracking.
+                </p>
+              </div>
+
+              <div class="phone-tiles">
+                <div class="phone-tile">
+                  <div style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Dashboard</div>
+                  <div style="margin-top:2px;font-size:0.68rem;color:rgba(180,172,200,0.75);">Account overview</div>
+                </div>
+                <div class="phone-tile">
+                  <div style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Activities</div>
+                  <div style="margin-top:2px;font-size:0.68rem;color:rgba(180,172,200,0.75);">Daily modules</div>
+                </div>
+                <div class="phone-tile">
+                  <div style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Reward Points</div>
+                  <div style="margin-top:2px;font-size:0.68rem;color:rgba(180,172,200,0.75);">Activity summary</div>
+                </div>
+                <div class="phone-tile">
+                  <div style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">History</div>
+                  <div style="margin-top:2px;font-size:0.68rem;color:rgba(180,172,200,0.75);">Past records</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About App -->
+    <section class="section" id="about">
+      <div class="container" style="max-width:896px;">
+        <div class="dark-card-gold" style="text-align:center;">
+          <span class="pill-gold">Mobile Experience</span>
+          <h2 style="margin-top:16px;font-size:clamp(1.7rem,3vw,2.25rem);font-weight:800;color:#FFFFFF;">
+            ABOUT <span class="gold-gradient-text">KINGS EARNS</span>
+          </h2>
+          <p style="margin:14px auto 0;max-width:640px;font-size:1.02rem;color:#B4ACC8;">
+            KINGS EARNS is an Android application designed with a simple interface and convenient navigation. Explore the application's features through a smooth mobile experience.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features" style="border-top:none;padding-top:16px;">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:40px;">
+          <h2 style="font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:800;color:#FFFFFF;">APP FEATURES</h2>
+          <p style="margin-top:6px;font-size:0.9rem;color:#B4ACC8;">
+            Designed for clean mobile navigation and clear status visibility.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h10m-10 6h16" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Simple Interface</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">A clear dark-navy and gold layout built for comfortable everyday use on Android screens.</p>
+          </div>
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Easy Navigation</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">Move cleanly between sections using straightforward bottom tabs and clear labels.</p>
+          </div>
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Account Overview</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">Check your profile details and organized status summaries in a single view.</p>
+          </div>
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Daily Activities</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">Browse daily modules and available in-app activities directly from your mobile device.</p>
+          </div>
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l2.2 4.8L19 10l-4.8 2.2L12 17l-2.2-4.8L5 10l4.8-2.2L12 3z" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Reward Points</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">View point summaries recorded from eligible completed actions inside the app.</p>
+          </div>
+          <div class="dark-card">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:8px;">Activity History</h3>
+            <p style="font-size:0.86rem;color:#B4ACC8;">Review chronological records and past activity entries whenever needed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots Gallery -->
+    <section class="section" id="screenshots">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:44px;">
+          <span class="pill-gold">Interface Gallery</span>
+          <h2 style="margin-top:14px;font-size:clamp(1.7rem,3vw,2.25rem);font-weight:800;color:#FFFFFF;">
+            APP <span class="gold-gradient-text">SCREENSHOTS</span>
+          </h2>
+          <p style="margin-top:8px;font-size:0.9rem;color:#B4ACC8;">
+            Tap any frame to inspect the KINGS EARNS Android layout cleanly.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <button type="button" class="screenshot-btn" data-screen-title="Account Overview" data-screen-caption="Clean dashboard showing organized quick actions and status summary.">
+            <div class="phone-frame" style="max-width:280px;">
+              <div class="phone-camera"></div>
+              <div class="phone-screen" style="padding:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;">
+                  <span style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Account Overview</span>
+                  <span style="font-size:0.65rem;font-weight:600;color:#E7C347;">Dashboard</span>
+                </div>
+                <img src="./assets/kings-earns-crown.png" alt="Account Overview preview" style="width:100%;height:112px;object-fit:cover;border-radius:12px;margin:14px 0;border:1px solid rgba(231,195,71,0.2);" />
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Navigation Bar</div>
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Overview Header</div>
+                <div class="phone-tile" style="padding:9px 12px;font-size:0.74rem;color:#B4ACC8;">Quick Module Tiles</div>
+              </div>
+            </div>
+            <h3 style="margin-top:18px;font-size:1rem;font-weight:700;color:#FFFFFF;">Account Overview</h3>
+            <p style="margin-top:4px;max-width:260px;text-align:center;font-size:0.76rem;color:rgba(180,172,200,0.8);">
+              Clean dashboard showing organized quick actions and status summary.
+            </p>
+          </button>
+
+          <button type="button" class="screenshot-btn" data-screen-title="Daily Activities" data-screen-caption="Clear list of daily activities and eligibility details.">
+            <div class="phone-frame" style="max-width:280px;">
+              <div class="phone-camera"></div>
+              <div class="phone-screen" style="padding:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;">
+                  <span style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Daily Activities</span>
+                  <span style="font-size:0.65rem;font-weight:600;color:#E7C347;">Activities</span>
+                </div>
+                <img src="./assets/kings-earns-crown.png" alt="Daily Activities preview" style="width:100%;height:112px;object-fit:cover;border-radius:12px;margin:14px 0;border:1px solid rgba(231,195,71,0.2);" />
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Daily Check-In Card</div>
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Available Activities</div>
+                <div class="phone-tile" style="padding:9px 12px;font-size:0.74rem;color:#B4ACC8;">Completion Rules</div>
+              </div>
+            </div>
+            <h3 style="margin-top:18px;font-size:1rem;font-weight:700;color:#FFFFFF;">Daily Activities</h3>
+            <p style="margin-top:4px;max-width:260px;text-align:center;font-size:0.76rem;color:rgba(180,172,200,0.8);">
+              Clear list of daily activities and eligibility details.
+            </p>
+          </button>
+
+          <button type="button" class="screenshot-btn" data-screen-title="Activity History" data-screen-caption="Chronological activity log with clean reference identifiers.">
+            <div class="phone-frame" style="max-width:280px;">
+              <div class="phone-camera"></div>
+              <div class="phone-screen" style="padding:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;">
+                  <span style="font-size:0.76rem;font-weight:700;color:#FFFFFF;">Activity History</span>
+                  <span style="font-size:0.65rem;font-weight:600;color:#E7C347;">History</span>
+                </div>
+                <img src="./assets/kings-earns-crown.png" alt="Activity History preview" style="width:100%;height:112px;object-fit:cover;border-radius:12px;margin:14px 0;border:1px solid rgba(231,195,71,0.2);" />
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Timestamped Entries</div>
+                <div class="phone-tile" style="padding:9px 12px;margin-bottom:8px;font-size:0.74rem;color:#B4ACC8;">Category Labels</div>
+                <div class="phone-tile" style="padding:9px 12px;font-size:0.74rem;color:#B4ACC8;">Status Summary</div>
+              </div>
+            </div>
+            <h3 style="margin-top:18px;font-size:1rem;font-weight:700;color:#FFFFFF;">Activity History</h3>
+            <p style="margin-top:4px;max-width:260px;text-align:center;font-size:0.76rem;color:rgba(180,172,200,0.8);">
+              Chronological activity log with clean reference identifiers.
+            </p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- How To Download -->
+    <section class="section">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:36px;">
+          <h2 style="font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:800;color:#FFFFFF;">HOW TO DOWNLOAD</h2>
+          <p style="margin-top:6px;font-size:0.9rem;color:#B4ACC8;">
+            Three simple steps to install KINGS EARNS on your Android device.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="dark-card">
+            <span class="font-mono" style="display:inline-flex;border-radius:8px;border:1px solid rgba(231,195,71,0.3);background:rgba(231,195,71,0.1);padding:4px 12px;font-size:0.74rem;font-weight:700;color:#E7C347;">
+              STEP 1
+            </span>
+            <p style="margin-top:16px;font-size:0.98rem;font-weight:600;color:#FFFFFF;">
+              Visit the official KINGS EARNS download website.
+            </p>
+          </div>
+          <div class="dark-card">
+            <span class="font-mono" style="display:inline-flex;border-radius:8px;border:1px solid rgba(231,195,71,0.3);background:rgba(231,195,71,0.1);padding:4px 12px;font-size:0.74rem;font-weight:700;color:#E7C347;">
+              STEP 2
+            </span>
+            <p style="margin-top:16px;font-size:0.98rem;font-weight:600;color:#FFFFFF;">
+              Click the DOWNLOAD APP button.
+            </p>
+          </div>
+          <div class="dark-card">
+            <span class="font-mono" style="display:inline-flex;border-radius:8px;border:1px solid rgba(231,195,71,0.3);background:rgba(231,195,71,0.1);padding:4px 12px;font-size:0.74rem;font-weight:700;color:#E7C347;">
+              STEP 3
+            </span>
+            <p style="margin-top:16px;font-size:0.98rem;font-weight:600;color:#FFFFFF;">
+              Download and install the Android application.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Download Section -->
+    <section class="section" id="download" style="border-top:none;padding-top:12px;">
+      <div class="container" style="max-width:1024px;">
+        <div class="dark-card-gold">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;">
+            <div class="hero-icon-box" style="width:80px;height:80px;">
+              <img src="./assets/kings-earns-icon.jpg" alt="KINGS EARNS App Icon" />
+            </div>
+            <div>
+              <span class="pill-gold" style="padding:2px 10px;font-size:0.68rem;">Android Application</span>
+              <h2 style="margin-top:8px;font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:800;color:#FFFFFF;">
+                KINGS EARNS
+              </h2>
+              <p style="margin-top:6px;max-width:560px;font-size:0.9rem;color:#B4ACC8;">
+                KINGS EARNS is an Android application designed with a simple interface and convenient navigation.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-4" style="margin-top:28px;">
+            <div class="spec-box"><small>Current Version</small><strong>1.0</strong></div>
+            <div class="spec-box"><small>APK File Size</small><strong>Pending upload</strong></div>
+            <div class="spec-box"><small>Android Compatibility</small><strong>Android 7.0+ (API 24+)</strong></div>
+            <div class="spec-box"><small>Last Updated</small><strong>2026-11-21</strong></div>
+          </div>
+
+          <div style="margin-top:28px;">
+            <button type="button" class="btn-gold" data-apk-download-btn data-status-target="mainDownloadNotice">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+              </svg>
+              <span>DOWNLOAD KINGS EARNS FOR ANDROID</span>
+            </button>
+            <div id="mainDownloadNotice" class="status-notice" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container" style="max-width:896px;">
+        <div style="text-align:center;margin-bottom:36px;">
+          <h2 style="font-size:clamp(1.6rem,3vw,2rem);font-weight:800;color:#FFFFFF;">
+            FREQUENTLY ASKED <span class="gold-gradient-text">QUESTIONS</span>
+          </h2>
+        </div>
+
+        <div class="dark-card" style="padding:4px 24px;">
+          <div class="faq-item open">
+            <button type="button" class="faq-q"><span>What is KINGS EARNS?</span><span>&#9662;</span></button>
+            <div class="faq-a">KINGS EARNS is an Android application designed with a simple interface, easy navigation, and organized daily modules.</div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q"><span>How can I download KINGS EARNS?</span><span>&#9662;</span></button>
+            <div class="faq-a">Click the DOWNLOAD APP or DOWNLOAD KINGS EARNS FOR ANDROID button on this official website.</div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q"><span>Is KINGS EARNS available for Android?</span><span>&#9662;</span></button>
+            <div class="faq-a">Yes. KINGS EARNS supports devices running Android 7.0+ (API 24+).</div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q"><span>How do I install the APK?</span><span>&#9662;</span></button>
+            <div class="faq-a">Save the APK from this official website, tap the downloaded file, and follow Android's on-screen installation prompts.</div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q"><span>Where can I download the latest version?</span><span>&#9662;</span></button>
+            <div class="faq-a">The latest official Android build and version notes are always published in the Download section of this website.</div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q"><span>How can I contact support?</span><span>&#9662;</span></button>
+            <div class="faq-a">Reach out using the official contact details listed in the footer ([Contact Email Pending]).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:24px;">
+        <div style="max-width:340px;">
+          <div class="brand">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#E7C347" aria-hidden="true">
+              <path d="M3 18h18v2H3v-2zm0-2l2-9 5 4 2-6 2 6 5-4 2 9H3z" />
+            </svg>
+            <span class="brand-title">KINGS EARNS</span>
+          </div>
+          <p style="margin-top:12px;font-size:0.78rem;color:rgba(180,172,200,0.8);">
+            Official Android application download website for KINGS EARNS.
+          </p>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:22px;font-size:0.86rem;color:#B4ACC8;">
+          <a href="#download" style="color:#E7C347;font-weight:600;">Download App</a>
+          <a href="#about">About App</a>
+          <a href="#privacy" data-legal-open="privacy">Privacy Policy</a>
+          <a href="#terms" data-legal-open="terms">Terms and Conditions</a>
+          <span>Contact: <span class="font-mono" style="font-size:0.78rem;">[Contact Email Pending]</span></span>
+        </div>
+      </div>
+
+      <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.76rem;color:rgba(180,172,200,0.7);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;">
+        <span>&copy; 2026 KINGS EARNS. All rights reserved.</span>
+        <span class="font-mono">Package: com.aistudio.kingsearns.rkxmpq</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Screenshot Preview Modal -->
+  <div class="modal-backdrop" id="screenModal" role="dialog" aria-modal="true" aria-labelledby="screenModalTitle">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
+        <span id="screenModalTitle" style="font-weight:700;color:#FFFFFF;"></span>
+        <button type="button" id="closeScreenModalBtn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:4px 10px;font-size:0.75rem;color:#B4ACC8;cursor:pointer;">
+          Close
+        </button>
+      </div>
+      <img src="./assets/kings-earns-crown.png" alt="Screenshot preview" style="width:100%;height:176px;object-fit:cover;border-radius:16px;margin-top:16px;border:1px solid rgba(231,195,71,0.2);" />
+      <p id="screenModalCaption" style="margin-top:16px;font-size:0.88rem;color:#B4ACC8;"></p>
+    </div>
+  </div>
+
+  <!-- Legal Modal -->
+  <div class="modal-backdrop" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+    <div class="modal-card">
+      <h3 id="legalModalTitle" style="color:#E7C347;font-size:1.15rem;font-weight:800;margin-bottom:10px;"></h3>
+      <p id="legalModalBody" style="font-size:0.88rem;color:#B4ACC8;margin-bottom:18px;"></p>
+      <button type="button" id="closeLegalModalBtn" class="btn-gold" style="width:100%;min-height:46px;">Close</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

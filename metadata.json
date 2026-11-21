@@ -1,0 +1,6 @@
+{
+  "name": "Kings Earns",
+  "description": "KINGS EARNS — Watch eligible advertisements, earn verified DEMO points, and submit manual JazzCash & Easypaisa withdrawal requests reviewed by an administrator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

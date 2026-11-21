@@ -1,0 +1,25 @@
+{
+  "firestore": [
+    {
+      "database": "ai-studio-android-kingsear-2244b582-778a-45d0-9adf-85d7a4840967",
+      "rules": "firestore.rules"
+    }
+  ],
+  "hosting": {
+    "public": "website/out",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "emulators": {
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8085
+    },
+    "ui": {
+      "enabled": false
+    }
+  }
+}

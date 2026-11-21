@@ -1,0 +1,383 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        ('email_verified' in request.auth.token && request.auth.token.email_verified == true && 'email' in request.auth.token && request.auth.token.email == 'zrn2469@gmail.com') ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isNonNegInt(val) {
+      return val is int && val >= 0;
+    }
+
+    function isValidUserWalletProfile(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 80 &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 120)) &&
+             data.referralCode is string && data.referralCode.size() >= 4 && data.referralCode.size() <= 24 &&
+             (!('referredBy' in data) || (data.referredBy is string && data.referredBy.size() <= 24)) &&
+             isNonNegInt(data.availableDemoPoints) &&
+             isNonNegInt(data.pendingDemoPoints) &&
+             isNonNegInt(data.reservedDemoPoints) &&
+             isNonNegInt(data.lifetimeDemoPoints) &&
+             isNonNegInt(data.totalWithdrawnDemoPoints) &&
+             isNonNegInt(data.completedAdsCount) &&
+             isNonNegInt(data.dailyAdsWatchedToday) &&
+             data.dailyAdsDate is string && data.dailyAdsDate.size() <= 16 &&
+             isNonNegInt(data.dailyStreak) &&
+             data.lastDailyClaimDate is string && data.lastDailyClaimDate.size() <= 16 &&
+             (!('jazzCashHolder' in data) || (data.jazzCashHolder is string && data.jazzCashHolder.size() <= 80)) &&
+             (!('jazzCashNumber' in data) || (data.jazzCashNumber is string && data.jazzCashNumber.size() <= 20)) &&
+             (!('easypaisaHolder' in data) || (data.easypaisaHolder is string && data.easypaisaHolder.size() <= 80)) &&
+             (!('easypaisaNumber' in data) || (data.easypaisaNumber is string && data.easypaisaNumber.size() <= 20)) &&
+             data.accountVerified is bool &&
+             data.fraudFlag is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidLedgerEntry(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.type in ['AD_REWARD', 'DAILY_CHECKIN', 'TASK_REWARD', 'REFERRAL_BONUS', 'WITHDRAW_RESERVE', 'WITHDRAW_PAID', 'WITHDRAW_RELEASE'] &&
+             data.pointsDelta is int &&
+             isNonNegInt(data.balanceAfter) &&
+             data.description is string && data.description.size() >= 1 && data.description.size() <= 200 &&
+             data.referenceId is string && data.referenceId.size() <= 128 &&
+             data.demoMode is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    function isValidAdEvent(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.adUnitId is string && data.adUnitId.size() >= 1 && data.adUnitId.size() <= 128 &&
+             data.adTitle is string && data.adTitle.size() >= 1 && data.adTitle.size() <= 120 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.rewardPoints is int && data.rewardPoints >= 1 && data.rewardPoints <= 25 &&
+             data.rewardType is string && data.rewardType.size() >= 1 && data.rewardType.size() <= 60 &&
+             data.verifiedCallback == true &&
+             data.demoMode is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    function isValidNotification(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 120 &&
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 400 &&
+             data.category in ['REWARD', 'WITHDRAWAL', 'ACCOUNT', 'REFERRAL', 'CAMPAIGN'] &&
+             data.readStatus is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    function isValidWithdrawal(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.username is string && data.username.size() >= 1 && data.username.size() <= 80 &&
+             data.method in ['JAZZCASH', 'EASYPAISA'] &&
+             data.accountHolderName is string && data.accountHolderName.size() >= 2 && data.accountHolderName.size() <= 80 &&
+             data.mobileNumber is string && data.mobileNumber.size() >= 10 && data.mobileNumber.size() <= 15 &&
+             data.requestedPoints is int && data.requestedPoints >= 100 && data.requestedPoints <= 1000000 &&
+             data.feePoints is int && data.feePoints >= 0 && data.feePoints < data.requestedPoints &&
+             data.netPoints is int && data.netPoints == (data.requestedPoints - data.feePoints) &&
+             data.status in ['PENDING', 'UNDER_REVIEW', 'APPROVED', 'PAYMENT_SENT', 'PAID', 'REJECTED'] &&
+             (!('externalTxReference' in data) || (data.externalTxReference is string && data.externalTxReference.size() <= 120)) &&
+             (!('rejectionReason' in data) || (data.rejectionReason is string && data.rejectionReason.size() <= 300)) &&
+             (!('reviewedByAdmin' in data) || (data.reviewedByAdmin is string && data.reviewedByAdmin.size() <= 120)) &&
+             data.demoMode is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidReferral(data) {
+      return data.referrerId is string && data.referrerId.size() >= 1 && data.referrerId.size() <= 128 &&
+             data.referredUserId is string && data.referredUserId.size() >= 1 && data.referredUserId.size() <= 128 &&
+             data.referredName is string && data.referredName.size() >= 1 && data.referredName.size() <= 80 &&
+             data.referralCode is string && data.referralCode.size() >= 4 && data.referralCode.size() <= 24 &&
+             data.status in ['REGISTERED', 'ELIGIBLE', 'APPROVED'] &&
+             data.rewardPoints is int && data.rewardPoints >= 0 && data.rewardPoints <= 50 &&
+             data.demoMode is bool &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidSupportTicket(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.username is string && data.username.size() >= 1 && data.username.size() <= 80 &&
+             data.subject is string && data.subject.size() >= 3 && data.subject.size() <= 120 &&
+             data.message is string && data.message.size() >= 5 && data.message.size() <= 1000 &&
+             data.status in ['OPEN', 'IN_PROGRESS', 'RESOLVED'] &&
+             (!('adminReply' in data) || (data.adminReply is string && data.adminReply.size() <= 1000)) &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidPlatformConfig(data) {
+      return data.pointsPerAd is int && data.pointsPerAd >= 1 && data.pointsPerAd <= 25 &&
+             data.minWithdrawalPoints is int && data.minWithdrawalPoints >= 10 && data.minWithdrawalPoints <= 100000 &&
+             data.feePoints is int && data.feePoints >= 0 && data.feePoints <= 1000 &&
+             data.dailyAdLimit is int && data.dailyAdLimit >= 1 && data.dailyAdLimit <= 500 &&
+             data.dailyCheckInPoints is int && data.dailyCheckInPoints >= 1 && data.dailyCheckInPoints <= 50 &&
+             data.referralBonusPoints is int && data.referralBonusPoints >= 0 && data.referralBonusPoints <= 100 &&
+             data.demoMode is bool &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidAuditLog(data) {
+      return data.adminUid is string && data.adminUid.size() >= 1 && data.adminUid.size() <= 128 &&
+             data.adminEmail is string && data.adminEmail.size() >= 1 && data.adminEmail.size() <= 120 &&
+             data.action is string && data.action.size() >= 1 && data.action.size() <= 80 &&
+             data.targetType is string && data.targetType.size() >= 1 && data.targetType.size() <= 60 &&
+             data.targetId is string && data.targetId.size() >= 1 && data.targetId.size() <= 128 &&
+             data.details is string && data.details.size() >= 1 && data.details.size() <= 400 &&
+             data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+
+      allow create: if isValidId(userId) &&
+                       isOwner(userId) &&
+                       incoming().userId == userId &&
+                       incoming().keys().hasAll([
+                         'userId', 'displayName', 'referralCode',
+                         'availableDemoPoints', 'pendingDemoPoints', 'reservedDemoPoints',
+                         'lifetimeDemoPoints', 'totalWithdrawnDemoPoints',
+                         'completedAdsCount', 'dailyAdsWatchedToday', 'dailyAdsDate',
+                         'dailyStreak', 'lastDailyClaimDate',
+                         'accountVerified', 'fraudFlag', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'displayName', 'email', 'referralCode', 'referredBy',
+                         'availableDemoPoints', 'pendingDemoPoints', 'reservedDemoPoints',
+                         'lifetimeDemoPoints', 'totalWithdrawnDemoPoints',
+                         'completedAdsCount', 'dailyAdsWatchedToday', 'dailyAdsDate',
+                         'dailyStreak', 'lastDailyClaimDate',
+                         'jazzCashHolder', 'jazzCashNumber', 'easypaisaHolder', 'easypaisaNumber',
+                         'accountVerified', 'fraudFlag', 'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().availableDemoPoints == 0 &&
+                       incoming().pendingDemoPoints == 0 &&
+                       incoming().reservedDemoPoints == 0 &&
+                       incoming().lifetimeDemoPoints == 0 &&
+                       incoming().totalWithdrawnDemoPoints == 0 &&
+                       incoming().completedAdsCount == 0 &&
+                       incoming().dailyAdsWatchedToday == 0 &&
+                       incoming().dailyStreak == 0 &&
+                       incoming().accountVerified == false &&
+                       incoming().fraudFlag == false &&
+                       isValidUserWalletProfile(incoming());
+
+      allow update: if isValidId(userId) &&
+                       isValidUserWalletProfile(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt && (
+                         isAdmin() || (
+                           isOwner(userId) &&
+                           incoming().accountVerified == existing().accountVerified &&
+                           incoming().fraudFlag == existing().fraudFlag &&
+                           incoming().totalWithdrawnDemoPoints == existing().totalWithdrawnDemoPoints && (
+                             // Action 1: Update profile / payment details
+                             incoming().diff(existing()).affectedKeys().hasOnly([
+                               'displayName', 'email', 'referredBy',
+                               'jazzCashHolder', 'jazzCashNumber', 'easypaisaHolder', 'easypaisaNumber',
+                               'updatedAt'
+                             ]) ||
+                             // Action 2: Verified Ad / Daily Check-In / Task Reward (bounded increment)
+                             (
+                               incoming().diff(existing()).affectedKeys().hasOnly([
+                                 'availableDemoPoints', 'lifetimeDemoPoints',
+                                 'completedAdsCount', 'dailyAdsWatchedToday', 'dailyAdsDate',
+                                 'dailyStreak', 'lastDailyClaimDate', 'updatedAt'
+                               ]) &&
+                               incoming().availableDemoPoints >= existing().availableDemoPoints &&
+                               (incoming().availableDemoPoints - existing().availableDemoPoints) <= 25 &&
+                               (incoming().lifetimeDemoPoints - existing().lifetimeDemoPoints) == (incoming().availableDemoPoints - existing().availableDemoPoints) &&
+                               incoming().completedAdsCount >= existing().completedAdsCount &&
+                               (incoming().completedAdsCount - existing().completedAdsCount) <= 1
+                             ) ||
+                             // Action 3: Reserve balance for a new withdrawal request (zero-sum conservation)
+                             (
+                               incoming().diff(existing()).affectedKeys().hasOnly([
+                                 'availableDemoPoints', 'reservedDemoPoints', 'updatedAt'
+                               ]) &&
+                               incoming().reservedDemoPoints > existing().reservedDemoPoints &&
+                               incoming().availableDemoPoints < existing().availableDemoPoints &&
+                               (incoming().reservedDemoPoints - existing().reservedDemoPoints) == (existing().availableDemoPoints - incoming().availableDemoPoints)
+                             )
+                           )
+                         )
+                       );
+
+      allow delete: if false;
+
+      match /ledger/{entryId} {
+        allow get: if isValidId(entryId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if isValidId(entryId) &&
+                         (isOwner(userId) || isAdmin()) &&
+                         incoming().userId == userId &&
+                         incoming().keys().hasAll(['userId', 'type', 'pointsDelta', 'balanceAfter', 'description', 'referenceId', 'demoMode', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'type', 'pointsDelta', 'balanceAfter', 'description', 'referenceId', 'demoMode', 'createdAt']) &&
+                         isValidLedgerEntry(incoming());
+        allow update, delete: if false;
+      }
+
+      match /adEvents/{eventId} {
+        allow get: if isValidId(eventId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if isValidId(eventId) &&
+                         isOwner(userId) &&
+                         incoming().userId == userId &&
+                         incoming().keys().hasAll(['userId', 'adUnitId', 'adTitle', 'category', 'rewardPoints', 'rewardType', 'verifiedCallback', 'demoMode', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'adUnitId', 'adTitle', 'category', 'rewardPoints', 'rewardType', 'verifiedCallback', 'demoMode', 'createdAt']) &&
+                         isValidAdEvent(incoming());
+        allow update, delete: if false;
+      }
+
+      match /notifications/{notificationId} {
+        allow get: if isValidId(notificationId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if isValidId(notificationId) &&
+                         (isOwner(userId) || isAdmin()) &&
+                         incoming().userId == userId &&
+                         incoming().keys().hasAll(['userId', 'title', 'message', 'category', 'readStatus', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'title', 'message', 'category', 'readStatus', 'createdAt']) &&
+                         isValidNotification(incoming());
+        allow update: if isValidId(notificationId) &&
+                         (isOwner(userId) || isAdmin()) &&
+                         isValidNotification(incoming()) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['readStatus']);
+        allow delete: if isValidId(notificationId) && (isOwner(userId) || isAdmin());
+      }
+    }
+
+    match /withdrawals/{withdrawalId} {
+      allow get: if isValidId(withdrawalId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if isValidId(withdrawalId) &&
+                       isSignedIn() &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().status == 'PENDING' &&
+                       (!('externalTxReference' in incoming()) || incoming().externalTxReference == '') &&
+                       (!('rejectionReason' in incoming()) || incoming().rejectionReason == '') &&
+                       (!('reviewedByAdmin' in incoming()) || incoming().reviewedByAdmin == '') &&
+                       incoming().keys().hasAll(['userId', 'username', 'method', 'accountHolderName', 'mobileNumber', 'requestedPoints', 'feePoints', 'netPoints', 'status', 'demoMode', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'username', 'method', 'accountHolderName', 'mobileNumber', 'requestedPoints', 'feePoints', 'netPoints', 'status', 'externalTxReference', 'rejectionReason', 'reviewedByAdmin', 'demoMode', 'createdAt', 'updatedAt']) &&
+                       isValidWithdrawal(incoming());
+
+      allow update: if isValidId(withdrawalId) &&
+                       isAdmin() &&
+                       isValidWithdrawal(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       existing().status != 'PAID' &&
+                       existing().status != 'REJECTED' &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'status', 'externalTxReference', 'rejectionReason', 'reviewedByAdmin', 'updatedAt'
+                       ]);
+
+      allow delete: if false;
+    }
+
+    match /referrals/{referralId} {
+      allow get: if isValidId(referralId) && isSignedIn() && (existing().referrerId == request.auth.uid || existing().referredUserId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.referrerId == request.auth.uid || isAdmin());
+
+      allow create: if isValidId(referralId) &&
+                       isSignedIn() &&
+                       incoming().referredUserId == request.auth.uid &&
+                       incoming().referrerId != request.auth.uid &&
+                       incoming().status == 'REGISTERED' &&
+                       incoming().keys().hasAll(['referrerId', 'referredUserId', 'referredName', 'referralCode', 'status', 'rewardPoints', 'demoMode', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['referrerId', 'referredUserId', 'referredName', 'referralCode', 'status', 'rewardPoints', 'demoMode', 'createdAt', 'updatedAt']) &&
+                       isValidReferral(incoming());
+
+      allow update: if isValidId(referralId) &&
+                       isAdmin() &&
+                       isValidReferral(incoming()) &&
+                       incoming().referrerId == existing().referrerId &&
+                       incoming().referredUserId == existing().referredUserId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'rewardPoints', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    match /supportTickets/{ticketId} {
+      allow get: if isValidId(ticketId) && isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if isValidId(ticketId) &&
+                       isSignedIn() &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().status == 'OPEN' &&
+                       incoming().keys().hasAll(['userId', 'username', 'subject', 'message', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'username', 'subject', 'message', 'status', 'adminReply', 'createdAt', 'updatedAt']) &&
+                       isValidSupportTicket(incoming());
+
+      allow update: if isValidId(ticketId) &&
+                       isAdmin() &&
+                       isValidSupportTicket(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminReply', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    match /platformConfig/{configId} {
+      allow get: if isValidId(configId) && isSignedIn();
+      allow list: if isAdmin();
+      allow create, update: if isValidId(configId) && isAdmin() && isValidPlatformConfig(incoming());
+      allow delete: if false;
+    }
+
+    match /admins/{adminUid} {
+      allow get: if isValidId(adminUid) && isSignedIn() && (request.auth.uid == adminUid || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow get: if isValidId(logId) && isAdmin();
+      allow list: if isAdmin();
+      allow create: if isValidId(logId) &&
+                       isAdmin() &&
+                       incoming().adminUid == request.auth.uid &&
+                       incoming().keys().hasAll(['adminUid', 'adminEmail', 'action', 'targetType', 'targetId', 'details', 'createdAt']) &&
+                       incoming().keys().hasOnly(['adminUid', 'adminEmail', 'action', 'targetType', 'targetId', 'details', 'createdAt']) &&
+                       isValidAuditLog(incoming());
+      allow update, delete: if false;
+    }
+  }
+}

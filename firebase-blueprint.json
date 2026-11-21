@@ -1,0 +1,241 @@
+{
+  "entities": {
+    "UserWalletProfile": {
+      "title": "UserWalletProfile",
+      "description": "User profile, DEMO point balances, daily streak, and saved JazzCash/Easypaisa payout details.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
+        "displayName": { "type": "string", "description": "User display name." },
+        "email": { "type": "string", "description": "User email address." },
+        "referralCode": { "type": "string", "description": "Unique referral code assigned to user." },
+        "referredBy": { "type": "string", "description": "Optional referral code used during onboarding." },
+        "availableDemoPoints": { "type": "integer", "description": "Spendable DEMO points balance." },
+        "pendingDemoPoints": { "type": "integer", "description": "Pending DEMO points awaiting verification." },
+        "reservedDemoPoints": { "type": "integer", "description": "DEMO points reserved by active withdrawal requests." },
+        "lifetimeDemoPoints": { "type": "integer", "description": "Total cumulative DEMO points earned." },
+        "totalWithdrawnDemoPoints": { "type": "integer", "description": "Total DEMO points permanently deducted after manual PAID confirmation." },
+        "completedAdsCount": { "type": "integer", "description": "Total verified rewarded ads completed." },
+        "dailyAdsWatchedToday": { "type": "integer", "description": "Ads watched on dailyAdsDate." },
+        "dailyAdsDate": { "type": "string", "description": "ISO date YYYY-MM-DD of dailyAdsWatchedToday." },
+        "dailyStreak": { "type": "integer", "description": "Consecutive daily check-in streak." },
+        "lastDailyClaimDate": { "type": "string", "description": "ISO date YYYY-MM-DD of last daily check-in." },
+        "jazzCashHolder": { "type": "string", "description": "Saved JazzCash account holder name." },
+        "jazzCashNumber": { "type": "string", "description": "Saved JazzCash mobile number." },
+        "easypaisaHolder": { "type": "string", "description": "Saved Easypaisa account holder name." },
+        "easypaisaNumber": { "type": "string", "description": "Saved Easypaisa mobile number." },
+        "accountVerified": { "type": "boolean", "description": "Admin-controlled account verification flag." },
+        "fraudFlag": { "type": "boolean", "description": "Admin-controlled fraud flag." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp of creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp of last update." }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "referralCode",
+        "availableDemoPoints",
+        "pendingDemoPoints",
+        "reservedDemoPoints",
+        "lifetimeDemoPoints",
+        "totalWithdrawnDemoPoints",
+        "completedAdsCount",
+        "dailyAdsWatchedToday",
+        "dailyAdsDate",
+        "dailyStreak",
+        "lastDailyClaimDate",
+        "accountVerified",
+        "fraudFlag",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "LedgerEntry": {
+      "title": "LedgerEntry",
+      "description": "Immutable auditable wallet ledger entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["AD_REWARD", "DAILY_CHECKIN", "TASK_REWARD", "REFERRAL_BONUS", "WITHDRAW_RESERVE", "WITHDRAW_PAID", "WITHDRAW_RELEASE"] },
+        "pointsDelta": { "type": "integer" },
+        "balanceAfter": { "type": "integer" },
+        "description": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "demoMode": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "pointsDelta", "balanceAfter", "description", "referenceId", "demoMode", "createdAt"]
+    },
+    "AdRewardEvent": {
+      "title": "AdRewardEvent",
+      "description": "Verified rewarded advertisement completion record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "adUnitId": { "type": "string" },
+        "adTitle": { "type": "string" },
+        "category": { "type": "string" },
+        "rewardPoints": { "type": "integer" },
+        "rewardType": { "type": "string" },
+        "verifiedCallback": { "type": "boolean" },
+        "demoMode": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "adUnitId", "adTitle", "category", "rewardPoints", "rewardType", "verifiedCallback", "demoMode", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notification entry for rewards, withdrawals, and account events.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "category": { "type": "string", "enum": ["REWARD", "WITHDRAWAL", "ACCOUNT", "REFERRAL", "CAMPAIGN"] },
+        "readStatus": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "category", "readStatus", "createdAt"]
+    },
+    "WithdrawalRequest": {
+      "title": "WithdrawalRequest",
+      "description": "Manual administrator-reviewed JazzCash or Easypaisa withdrawal request.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "method": { "type": "string", "enum": ["JAZZCASH", "EASYPAISA"] },
+        "accountHolderName": { "type": "string" },
+        "mobileNumber": { "type": "string" },
+        "requestedPoints": { "type": "integer" },
+        "feePoints": { "type": "integer" },
+        "netPoints": { "type": "integer" },
+        "status": { "type": "string", "enum": ["PENDING", "UNDER_REVIEW", "APPROVED", "PAYMENT_SENT", "PAID", "REJECTED"] },
+        "externalTxReference": { "type": "string" },
+        "rejectionReason": { "type": "string" },
+        "reviewedByAdmin": { "type": "string" },
+        "demoMode": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "method", "accountHolderName", "mobileNumber", "requestedPoints", "feePoints", "netPoints", "status", "demoMode", "createdAt", "updatedAt"]
+    },
+    "ReferralRecord": {
+      "title": "ReferralRecord",
+      "description": "Tracked referral registration and eligibility status.",
+      "type": "object",
+      "properties": {
+        "referrerId": { "type": "string" },
+        "referredUserId": { "type": "string" },
+        "referredName": { "type": "string" },
+        "referralCode": { "type": "string" },
+        "status": { "type": "string", "enum": ["REGISTERED", "ELIGIBLE", "APPROVED"] },
+        "rewardPoints": { "type": "integer" },
+        "demoMode": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["referrerId", "referredUserId", "referredName", "referralCode", "status", "rewardPoints", "demoMode", "createdAt", "updatedAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "User support inquiry reviewed by administrators.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "adminReply": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "username", "subject", "message", "status", "createdAt", "updatedAt"]
+    },
+    "PlatformConfig": {
+      "title": "PlatformConfig",
+      "description": "Admin-configurable reward rules and withdrawal thresholds.",
+      "type": "object",
+      "properties": {
+        "pointsPerAd": { "type": "integer" },
+        "minWithdrawalPoints": { "type": "integer" },
+        "feePoints": { "type": "integer" },
+        "dailyAdLimit": { "type": "integer" },
+        "dailyCheckInPoints": { "type": "integer" },
+        "referralBonusPoints": { "type": "integer" },
+        "demoMode": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pointsPerAd", "minWithdrawalPoints", "feePoints", "dailyAdLimit", "dailyCheckInPoints", "referralBonusPoints", "demoMode", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Authorized administrator registry entry.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "AdminAuditLog": {
+      "title": "AdminAuditLog",
+      "description": "Immutable log of administrator actions.",
+      "type": "object",
+      "properties": {
+        "adminUid": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminUid", "adminEmail", "action", "targetType", "targetId", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserWalletProfile" },
+      "description": "Per-user wallet summary, streak, and saved payout accounts."
+    },
+    "/users/{userId}/ledger/{entryId}": {
+      "schema": { "$ref": "#/entities/LedgerEntry" },
+      "description": "Immutable per-user auditable wallet ledger."
+    },
+    "/users/{userId}/adEvents/{eventId}": {
+      "schema": { "$ref": "#/entities/AdRewardEvent" },
+      "description": "Idempotent record of verified AdMob rewarded ad completions."
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AppNotification" },
+      "description": "Per-user in-app notifications."
+    },
+    "/withdrawals/{withdrawalId}": {
+      "schema": { "$ref": "#/entities/WithdrawalRequest" },
+      "description": "JazzCash and Easypaisa withdrawal requests subject to manual admin review."
+    },
+    "/referrals/{referralId}": {
+      "schema": { "$ref": "#/entities/ReferralRecord" },
+      "description": "Referral tracking records."
+    },
+    "/supportTickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "User support tickets."
+    },
+    "/platformConfig/{configId}": {
+      "schema": { "$ref": "#/entities/PlatformConfig" },
+      "description": "Global platform reward rules configured by administrators."
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Authorized administrator registry."
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
+      "description": "Immutable administrator audit trail."
+    }
+  }
+}
